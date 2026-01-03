@@ -37,16 +37,12 @@ function TexturedPlanetMesh({
   radius,
   texturePath,
   tilt,
-  rotationSpeed,
-  timeScale,
   onClick,
   planetRef,
 }: {
   radius: number;
   texturePath: string;
   tilt: number;
-  rotationSpeed: number;
-  timeScale: number;
   onClick: (e: THREE.Event) => void;
   planetRef: React.RefObject<THREE.Mesh>;
 }) {
@@ -163,7 +159,7 @@ export function Planet({
   });
 
   const handleClick = (e: THREE.Event) => {
-    e.stopPropagation();
+    (e as any).stopPropagation?.();
     if (groupRef.current) {
       onClick?.(groupRef.current.position.clone());
     }
@@ -193,7 +189,7 @@ export function Planet({
               color={planetColor}
               tilt={data.tilt}
               onClick={handleClick}
-              planetRef={planetRef}
+              planetRef={planetRef as React.RefObject<THREE.Mesh>}
             />
           }
         >
@@ -202,10 +198,8 @@ export function Planet({
               radius={data.radius}
               texturePath={texturePath}
               tilt={data.tilt}
-              rotationSpeed={data.rotationSpeed}
-              timeScale={timeScale}
               onClick={handleClick}
-              planetRef={planetRef}
+              planetRef={planetRef as React.RefObject<THREE.Mesh>}
             />
           ) : (
             <FallbackPlanetMesh
@@ -213,7 +207,7 @@ export function Planet({
               color={planetColor}
               tilt={data.tilt}
               onClick={handleClick}
-              planetRef={planetRef}
+              planetRef={planetRef as React.RefObject<THREE.Mesh>}
             />
           )}
         </Suspense>
@@ -301,7 +295,7 @@ export function Planet({
               onMouseEnter={() => setIsLabelHovered(true)}
               onMouseLeave={() => setIsLabelHovered(false)}
               onClick={(e) => {
-                e.stopPropagation();
+                (e as any).stopPropagation?.();
                 if (groupRef.current) {
                   onClick?.(groupRef.current.position.clone());
                 }

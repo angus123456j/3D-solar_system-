@@ -25,7 +25,7 @@ export function Comet({
   const tailLength = 150;
 
   // Create tail geometry with positions and opacity attributes
-  const { geometry, opacities } = useMemo(() => {
+  const { geometry } = useMemo(() => {
     const geo = new THREE.BufferGeometry();
     const positions = new Float32Array(tailLength * 3);
     const sizes = new Float32Array(tailLength);
@@ -45,7 +45,7 @@ export function Comet({
     geo.setAttribute("size", new THREE.BufferAttribute(sizes, 1));
     geo.setAttribute("opacity", new THREE.BufferAttribute(opacityArray, 1));
     
-    return { geometry: geo, opacities: opacityArray };
+    return { geometry: geo };
   }, []);
 
   // Custom shader for gradient tail

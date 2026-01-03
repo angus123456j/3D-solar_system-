@@ -111,7 +111,7 @@ export function Moon({
   });
 
   const handleClick = (e: THREE.Event) => {
-    e.stopPropagation();
+    (e as any).stopPropagation?.();
     onClick?.();
   };
 
@@ -185,7 +185,7 @@ export function Moon({
             onMouseEnter={() => setIsLabelHovered(true)}
             onMouseLeave={() => setIsLabelHovered(false)}
             onClick={(e) => {
-              e.stopPropagation();
+              (e as any).stopPropagation?.();
               onClick?.();
             }}
           >

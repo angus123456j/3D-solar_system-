@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback } from "react";
 import * as THREE from "three";
 import { Sun } from "./Sun";
 import { Planet } from "./Planet";

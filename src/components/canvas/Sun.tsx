@@ -14,7 +14,7 @@ export function Sun({ onClick }: SunProps) {
   // Load sun texture
   const texture = useLoader(TextureLoader, sunTexture);
 
-  useFrame((state) => {
+  useFrame(() => {
     if (meshRef.current) {
       meshRef.current.rotation.y += 0.001;
     }

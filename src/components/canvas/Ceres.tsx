@@ -95,7 +95,7 @@ export function Ceres({
   });
 
   const handleClick = (e: THREE.Event) => {
-    e.stopPropagation();
+    (e as any).stopPropagation?.();
     if (groupRef.current) {
       onClick?.(groupRef.current.position.clone());
     }
@@ -164,7 +164,7 @@ export function Ceres({
               onMouseEnter={() => setIsLabelHovered(true)}
               onMouseLeave={() => setIsLabelHovered(false)}
               onClick={(e) => {
-                e.stopPropagation();
+                (e as any).stopPropagation?.();
                 if (groupRef.current) {
                   onClick?.(groupRef.current.position.clone());
                 }
@@ -193,7 +193,7 @@ export function Ceres({
                 padding: "4px 8px",
               }}
               onClick={(e) => {
-                e.stopPropagation();
+                (e as any).stopPropagation?.();
                 if (groupRef.current) {
                   onClick?.(groupRef.current.position.clone());
                 }
