@@ -124,7 +124,7 @@ export function MoonInfoPanel({ moon, parentName, onClose }: MoonInfoPanelProps)
 
       <div className="moon-info-content">
         <div className="moon-info-item">
-          <span className="moon-info-label">Relative Size</span>
+          <span className="moon-info-label">Size (vs Earth)</span>
           <span className="moon-info-value">{(moon.radius * 100).toFixed(0)}%</span>
         </div>
         <div className="moon-info-item">
