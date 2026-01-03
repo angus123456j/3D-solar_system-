@@ -24,7 +24,7 @@ function CeresModel({
   modelScale: number;
   onClick: (e: THREE.Event) => void;
 }) {
-  const { scene } = useGLTF("/src/assets/textures/misc/Ceres_1_1000.glb");
+  const { scene } = useGLTF("/Ceres_1_1000.glb");
   
   return (
     <primitive 
@@ -222,5 +222,5 @@ export function Ceres({
 }
 
 // Preload the model
-useGLTF.preload("/src/assets/textures/misc/Ceres_1_1000.glb");
+useGLTF.preload("/Ceres_1_1000.glb");
 
