@@ -142,14 +142,14 @@ export function Planet({
 
   useFrame((_, delta) => {
     if (groupRef.current && planetRef.current) {
-      // Orbital movement
-      orbitAngleRef.current += delta * data.orbitSpeed * 0.1 * timeScale;
+      // Orbital movement (revolution around the sun)
+      orbitAngleRef.current += delta * data.orbitSpeed * timeScale;
       
       groupRef.current.position.x = Math.cos(orbitAngleRef.current) * data.orbitRadius;
       groupRef.current.position.z = Math.sin(orbitAngleRef.current) * data.orbitRadius;
 
-      // Planet rotation
-      planetRef.current.rotation.y += delta * data.rotationSpeed * timeScale;
+      // Planet rotation (spinning on axis)
+      planetRef.current.rotation.y += delta * data.rotationSpeed * 5 * timeScale;
 
       // If focused, continuously update camera tracking position
       if (isFocused) {

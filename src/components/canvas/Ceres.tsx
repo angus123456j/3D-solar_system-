@@ -76,8 +76,8 @@ export function Ceres({
 
   useFrame((_, delta) => {
     if (groupRef.current) {
-      // Orbital movement
-      orbitAngleRef.current += delta * data.orbitSpeed * 0.1 * timeScale;
+      // Orbital movement (revolution around the sun)
+      orbitAngleRef.current += delta * data.orbitSpeed * timeScale;
       
       groupRef.current.position.x = Math.cos(orbitAngleRef.current) * data.orbitRadius;
       groupRef.current.position.z = Math.sin(orbitAngleRef.current) * data.orbitRadius;
@@ -88,9 +88,9 @@ export function Ceres({
       }
     }
 
-    // Rotate the model
+    // Rotate the model (spinning on axis)
     if (modelRef.current) {
-      modelRef.current.rotation.y += delta * data.rotationSpeed * timeScale;
+      modelRef.current.rotation.y += delta * data.rotationSpeed * 5 * timeScale;
     }
   });
 
