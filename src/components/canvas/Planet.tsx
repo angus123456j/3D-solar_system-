@@ -27,9 +27,11 @@ interface PlanetProps {
   isSelected?: boolean;
   isFocused?: boolean;
   focusedMoon?: string | null;
+  focusedMoonParent?: string | null;
   onClick?: (position: THREE.Vector3) => void;
   onMoonClick?: (moon: MoonInfo, parentName: string) => void;
   hasInfoPanelOpen?: boolean;
+  focusedBodyName?: string | null;
 }
 
 // Separate component for textured planet mesh
@@ -145,9 +147,11 @@ export function Planet({
   isSelected = false,
   isFocused = false,
   focusedMoon = null,
+  focusedMoonParent = null,
   onClick,
   onMoonClick,
   hasInfoPanelOpen = false,
+  focusedBodyName = null,
 }: PlanetProps) {
   const groupRef = useRef<THREE.Group>(null);
   const planetRef = useRef<THREE.Mesh>(null);
@@ -271,38 +275,51 @@ export function Planet({
         )}
 
         {/* Cinematic lighting when focused - soft, atmospheric illumination */}
-        {isFocused && (
-          <>
-            {/* Dim spotlight from directly above the planet only - intensity scales with planet size */}
-            <pointLight
-              position={[0, data.radius * 3.5, 0]}
-              intensity={data.radius * 10}
-              distance={data.radius * 15}
-              color="#ffffff"
-            />
-            {/* Main key light - angled from front/left for cinematic look */}
-            <pointLight
-              position={[data.radius * 5, data.radius * 4, data.radius * 6]}
-              intensity={5}
-              distance={data.radius * 30}
-              color="#ffffff"
-            />
-            {/* Fill light - softer, from opposite side */}
-            <pointLight
-              position={[-data.radius * 4, data.radius * 2, -data.radius * 5]}
-              intensity={3}
-              distance={data.radius * 25}
-              color="#b8d4ff"
-            />
-            {/* Rim light - backlight for depth and separation */}
-            <pointLight
-              position={[-data.radius * 3, data.radius * 3, -data.radius * 8]}
-              intensity={3.5}
-              distance={data.radius * 28}
-              color="#d4e8ff"
-            />
-          </>
-        )}
+        {isFocused && (() => {
+          // Much dimmer, size-proportional lighting for small dwarf planets
+          const isSmallDwarf = data.name === "Pluto" || data.name === "Eris" || data.name === "Haumea" || data.name === "Makemake";
+          
+          // Calculate intensity based on radius for small dwarf planets
+          // For example, Pluto (0.35 radius) would get: 0.35 * 15 = 5.25 intensity
+          // This makes it proportional to size and much dimmer
+          const topIntensity = isSmallDwarf ? data.radius * 15 : 20;
+          const keyIntensity = isSmallDwarf ? data.radius * 3.75 : 5;
+          const fillIntensity = isSmallDwarf ? data.radius * 2.25 : 3;
+          const rimIntensity = isSmallDwarf ? data.radius * 2.6 : 3.5;
+          
+          return (
+            <>
+              {/* Dim spotlight from directly above the planet only */}
+              <pointLight
+                position={[0, data.radius * 3.5, 0]}
+                intensity={topIntensity}
+                distance={data.radius * 15}
+                color="#ffffff"
+              />
+              {/* Main key light - angled from front/left for cinematic look */}
+              <pointLight
+                position={[data.radius * 5, data.radius * 4, data.radius * 6]}
+                intensity={keyIntensity}
+                distance={data.radius * 30}
+                color="#ffffff"
+              />
+              {/* Fill light - softer, from opposite side */}
+              <pointLight
+                position={[-data.radius * 4, data.radius * 2, -data.radius * 5]}
+                intensity={fillIntensity}
+                distance={data.radius * 25}
+                color="#b8d4ff"
+              />
+              {/* Rim light - backlight for depth and separation */}
+              <pointLight
+                position={[-data.radius * 3, data.radius * 3, -data.radius * 8]}
+                intensity={rimIntensity}
+                distance={data.radius * 28}
+                color="#d4e8ff"
+              />
+            </>
+          );
+        })()}
 
         {/* Planet rings */}
         {data.hasRings && data.ringInnerRadius && data.ringOuterRadius && (
@@ -336,15 +353,20 @@ export function Planet({
             data={moon}
             timeScale={timeScale}
             showLabel={showMoonLabels}
-            isParentFocused={isFocused || focusedMoon !== null}
+            isParentFocused={isFocused || (focusedMoon !== null && focusedMoonParent === data.name)}
             isFocused={focusedMoon === moon.name}
             onClick={() => onMoonClick?.(moon, data.name)}
             hasInfoPanelOpen={hasInfoPanelOpen}
+            focusedBodyName={focusedBodyName}
+            focusedMoonParent={focusedMoonParent}
+            planetName={data.name}
           />
         ))}
 
         {/* Label - clickable to zoom in */}
-        {showLabels && !isFocused && !hasInfoPanelOpen && (
+        {/* Show label if: labels enabled AND this planet is NOT focused AND no planet/moon is focused */}
+        {/* When a moon is focused, hide regular labels (focused label will show parent planet) */}
+        {showLabels && !isFocused && !focusedBodyName && focusedMoonParent === null && (
           <Html
             position={[0, data.radius + 1, 0]}
             center
@@ -380,7 +402,8 @@ export function Planet({
         )}
 
         {/* Focused label - larger when zoomed in */}
-        {isFocused && !hasInfoPanelOpen && (
+        {/* Also show when a moon of this planet is focused (so parent planet label shows) */}
+        {(isFocused || (focusedMoon !== null && focusedMoonParent === data.name)) && (
           <Html
             position={[0, data.radius + 2, 0]}
             center
@@ -392,6 +415,7 @@ export function Planet({
               textShadow: "0 0 15px rgba(0,0,0,0.9)",
               pointerEvents: "none",
               whiteSpace: "nowrap",
+              zIndex: 1,
             }}
           >
             {data.name}

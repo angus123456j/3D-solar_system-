@@ -104,47 +104,12 @@ body,
 .loading-content p {
   font-size: 14px;
   color: rgba(255, 255, 255, 0.5);
-  margin-top: 16px;
-}
-
-.loading-bar-container {
-  width: 300px;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 3px;
-  overflow: hidden;
-  margin: 20px auto 0;
-}
-
-.loading-bar {
-  height: 100%;
-  background: linear-gradient(90deg, #88ccff 0%, #cc88ff 100%);
-  border-radius: 3px;
-  transition: width 0.3s ease;
-  box-shadow: 0 0 10px rgba(136, 204, 255, 0.5);
-}
-
-.loading-bar-container {
-  width: 300px;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 3px;
-  overflow: hidden;
-  margin: 20px auto 0;
-}
-
-.loading-bar {
-  height: 100%;
-  background: linear-gradient(90deg, #88ccff 0%, #cc88ff 100%);
-  border-radius: 3px;
-  transition: width 0.3s ease;
-  box-shadow: 0 0 10px rgba(136, 204, 255, 0.5);
 }
 
 /* Zoom Out Button */
 .zoom-out-button {
   position: fixed;
-  bottom: 80px;
+  bottom: 20px;
   left: 20px;
   display: flex;
   align-items: center;
@@ -194,7 +159,7 @@ body,
 /* Music Toggle Button */
 .music-toggle-button {
   position: fixed;
-  bottom: 20px;
+  bottom: 80px;
   left: 20px;
   display: flex;
   align-items: center;
@@ -252,7 +217,7 @@ body,
   }
 
   .zoom-out-button {
-    bottom: 70px;
+    bottom: 10px;
     left: 10px;
     padding: 10px 16px;
     font-size: 13px;
@@ -264,7 +229,7 @@ body,
   }
 
   .music-toggle-button {
-    bottom: 10px;
+    bottom: 70px;
     left: 10px;
     padding: 10px 16px;
     font-size: 13px;

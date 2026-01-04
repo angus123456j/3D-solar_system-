@@ -1,6 +1,6 @@
 import { useState, useCallback, Suspense, useRef, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
-import { PerspectiveCamera, OrbitControls, Html, useProgress } from "@react-three/drei";
+import { PerspectiveCamera, OrbitControls } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import * as THREE from "three";
 import { SolarSystem } from "./components/canvas/SolarSystem";
@@ -41,11 +41,10 @@ function Scene({
 }) {
   return (
     <>
-      <Loader />
       {/* Camera */}
       <PerspectiveCamera
         makeDefault
-        position={[0, 80, 150]}
+        position={[0, 100, 220]}
         fov={60}
         near={0.1}
         far={2000}
@@ -94,30 +93,6 @@ function Scene({
   );
 }
 
-// Loading screen component that uses drei's useProgress hook
-function Loader() {
-  const { progress, active } = useProgress();
-  
-  if (!active || progress === 100) {
-    return null;
-  }
-  
-  return (
-    <Html center style={{ pointerEvents: 'none' }}>
-      <div className="loading-screen">
-        <div className="loading-content">
-          <div className="loading-spinner"></div>
-          <h2>Loading Solar System</h2>
-          <div className="loading-bar-container">
-            <div className="loading-bar" style={{ width: `${progress}%` }}></div>
-          </div>
-          <p>{Math.round(progress)}% loaded</p>
-        </div>
-      </div>
-    </Html>
-  );
-}
-
 function App() {
   const [timeScale, setTimeScale] = useState(1);
   const [showLabels, setShowLabels] = useState(true);
@@ -127,27 +102,6 @@ function App() {
   const [selectedMoon, setSelectedMoon] = useState<{ moon: MoonInfo; parentName: string } | null>(null);
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
-
-  // Handle music play/pause
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    if (isMusicPlaying) {
-      audio.currentTime = 0; // Start from the beginning
-      audio.volume = 0.5;
-      audio.muted = false;
-      audio.play().catch((error) => {
-        console.log("Audio play prevented:", error);
-      });
-    } else {
-      audio.pause();
-    }
-  }, [isMusicPlaying]);
-
-  const toggleMusic = useCallback(() => {
-    setIsMusicPlaying((prev) => !prev);
-  }, []);
 
   const handleBodySelect = useCallback((body: BodyData | null) => {
     setSelectedBody(body);
@@ -162,6 +116,42 @@ function App() {
     resetCamera();
     setSelectedBody(null);
     setSelectedMoon(null);
+    // Clear the selection in SolarSystem by calling the handlers with null
+    handleBodySelect(null);
+  }, [handleBodySelect]);
+
+  // Handle music play/pause
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (isMusicPlaying) {
+      audio.muted = false;
+      audio.volume = 0.5;
+      audio.play().catch((error) => {
+        console.log("Audio play prevented:", error);
+      });
+    } else {
+      audio.muted = true;
+      audio.pause();
+    }
+  }, [isMusicPlaying]);
+
+  // Initialize audio - start muted and playing
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    audio.muted = true;
+    audio.volume = 0.5;
+    audio.loop = true;
+    audio.play().catch((error) => {
+      console.log("Audio autoplay prevented:", error);
+    });
+  }, []);
+
+  const toggleMusic = useCallback(() => {
+    setIsMusicPlaying((prev) => !prev);
   }, []);
 
   return (
@@ -213,14 +203,6 @@ function App() {
         <p>Click any planet to zoom in • Click again to zoom out</p>
       </header>
 
-      {/* Audio element */}
-      <audio
-        ref={audioRef}
-        src="/audio/space-music.mp3"
-        loop
-        preload="auto"
-      />
-
       {/* Zoom Out Button */}
       <button className="zoom-out-button" onClick={handleZoomOut} title="Zoom out to initial view">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -247,8 +229,16 @@ function App() {
             <line x1="17" y1="9" x2="23" y2="15"></line>
           </svg>
         )}
-        {isMusicPlaying ? "Music ON" : "Music OFF"}
+        Audio {isMusicPlaying ? "ON" : "OFF"}
       </button>
+
+      {/* Audio element */}
+      <audio
+        ref={audioRef}
+        src="/audio/space-music.mp3"
+        loop
+        preload="auto"
+      />
     </div>
   );
 }

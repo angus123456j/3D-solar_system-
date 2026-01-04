@@ -340,8 +340,8 @@ export const DWARF_PLANETS: DwarfPlanetData[] = [
     rotationSpeed: 0.1,
     tilt: 126,
     hasRings: true,
-    ringInnerRadius: 0.8,
-    ringOuterRadius: 1.2,
+    ringInnerRadius: 0.98,
+    ringOuterRadius: 1.02,
     moons: [],
     facts: {
       nickname: "The Cosmic Egg",

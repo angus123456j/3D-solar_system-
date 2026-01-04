@@ -1,8 +1,9 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import * as THREE from "three";
 import { Sun } from "./Sun";
 import { Planet } from "./Planet";
 import { Ceres } from "./Ceres";
+import { Haumea } from "./Haumea";
 import { Starfield } from "./Starfield";
 import { AsteroidBelt } from "./AsteroidBelt";
 import { CameraController } from "./CameraController";
@@ -40,6 +41,17 @@ export function SolarSystem({
   const [focusedBody, setFocusedBody] = useState<string | null>(null);
   const [focusedMoon, setFocusedMoon] = useState<string | null>(null);
   const [focusedMoonParent, setFocusedMoonParent] = useState<string | null>(null);
+
+  // Reset focus state when parent clears selection via zoom out button
+  // When hasInfoPanelOpen becomes false but we still have a focused body, reset it
+  useEffect(() => {
+    if (!hasInfoPanelOpen && (focusedBody !== null || focusedMoon !== null)) {
+      setFocusedBody(null);
+      setFocusedMoon(null);
+      setFocusedMoonParent(null);
+      clearTracking();
+    }
+  }, [hasInfoPanelOpen]);
 
   const handlePlanetClick = useCallback(
     (body: PlanetData | DwarfPlanetData, position: THREE.Vector3) => {
@@ -126,9 +138,11 @@ export function SolarSystem({
           isSelected={focusedBody === planet.name}
           isFocused={focusedBody === planet.name}
           focusedMoon={focusedMoonParent === planet.name ? focusedMoon : null}
+          focusedMoonParent={focusedMoonParent}
           onClick={(pos) => handlePlanetClick(planet, pos)}
           onMoonClick={handleMoonClick}
           hasInfoPanelOpen={hasInfoPanelOpen}
+          focusedBodyName={focusedBody}
         />
       ))}
 
@@ -156,8 +170,23 @@ export function SolarSystem({
         />
       ))}
 
-      {/* Other dwarf planets (not Ceres) */}
-      {DWARF_PLANETS.filter(p => p.name !== "Ceres").map((planet) => (
+      {/* Haumea - rendered with 3D model */}
+      {DWARF_PLANETS.filter(p => p.name === "Haumea").map((haumea) => (
+        <Haumea
+          key={haumea.name}
+          data={haumea}
+          timeScale={timeScale}
+          showLabels={showLabels}
+          showOrbits={showOrbits}
+          isSelected={focusedBody === haumea.name}
+          isFocused={focusedBody === haumea.name}
+          onClick={(pos) => handlePlanetClick(haumea, pos)}
+          hasInfoPanelOpen={hasInfoPanelOpen}
+        />
+      ))}
+
+      {/* Other dwarf planets (not Ceres or Haumea) */}
+      {DWARF_PLANETS.filter(p => p.name !== "Ceres" && p.name !== "Haumea").map((planet) => (
         <Planet
           key={planet.name}
           data={planet}
@@ -168,9 +197,11 @@ export function SolarSystem({
           isSelected={focusedBody === planet.name}
           isFocused={focusedBody === planet.name}
           focusedMoon={focusedMoonParent === planet.name ? focusedMoon : null}
+          focusedMoonParent={focusedMoonParent}
           onClick={(pos) => handlePlanetClick(planet, pos)}
           onMoonClick={handleMoonClick}
           hasInfoPanelOpen={hasInfoPanelOpen}
+          focusedBodyName={focusedBody}
         />
       ))}
     </group>

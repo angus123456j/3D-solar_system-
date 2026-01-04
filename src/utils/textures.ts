@@ -82,6 +82,7 @@ export const MOON_TEXTURES: Record<string, string> = {
 // Ring texture
 export const RING_TEXTURES: Record<string, string> = {
   Saturn: saturnRingTexture,
+  Haumea: saturnRingTexture, // Haumea uses Saturn's ring texture
 };
 
 export function getPlanetTexture(name: string): string | undefined {
@@ -93,6 +94,10 @@ export function getMoonTexture(name: string): string | undefined {
 }
 
 export function getRingTexture(name: string): string | undefined {
+  // Haumea uses Saturn's ring texture
+  if (name === "Haumea") {
+    return RING_TEXTURES["Saturn"];
+  }
   return RING_TEXTURES[name];
 }
 

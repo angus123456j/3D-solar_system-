@@ -108,6 +108,7 @@ export function Ring({ innerRadius, outerRadius, planetName }: RingProps) {
     if (planetName === "Jupiter") return 0.15;
     if (planetName === "Uranus") return 0.3;
     if (planetName === "Neptune") return 0.2;
+    if (planetName === "Haumea") return 0.6; // Haumea rings are thinner but visible
     return 0.3;
   }, [planetName]);
 
@@ -136,8 +137,11 @@ export function Ring({ innerRadius, outerRadius, planetName }: RingProps) {
     );
   }
 
-  // Use textured ring for Saturn, fallback for others
-  if (texturePath) {
+  // Use textured ring for Saturn and Haumea, fallback for others
+  // Get texture for Haumea (uses Saturn's texture)
+  const finalTexturePath = texturePath || (planetName === "Haumea" ? getRingTexture("Saturn") : undefined);
+  
+  if (finalTexturePath) {
     return (
       <Suspense
         fallback={
@@ -152,7 +156,7 @@ export function Ring({ innerRadius, outerRadius, planetName }: RingProps) {
         <TexturedRing
           innerRadius={innerRadius}
           outerRadius={outerRadius}
-          texturePath={texturePath}
+          texturePath={finalTexturePath}
         />
       </Suspense>
     );

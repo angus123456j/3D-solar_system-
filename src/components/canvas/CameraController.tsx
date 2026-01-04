@@ -5,9 +5,9 @@ import { cameraStore } from "../../stores/cameraStore";
 
 export function CameraController() {
   const { camera } = useThree();
-  const smoothedPosition = useRef(new THREE.Vector3(0, 80, 150));
+  const smoothedPosition = useRef(new THREE.Vector3(0, 100, 220));
   const smoothedLookAt = useRef(new THREE.Vector3(0, 0, 0));
-  const defaultPosition = new THREE.Vector3(0, 80, 150);
+  const defaultPosition = new THREE.Vector3(0, 100, 220);
   const wasTracking = useRef(false);
 
   useFrame(() => {

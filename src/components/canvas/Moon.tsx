@@ -23,6 +23,9 @@ interface MoonProps {
   isFocused?: boolean;
   onClick?: () => void;
   hasInfoPanelOpen?: boolean;
+  focusedBodyName?: string | null;
+  focusedMoonParent?: string | null;
+  planetName?: string;
 }
 
 // Textured moon mesh component
@@ -87,6 +90,9 @@ export function Moon({
   isFocused = false,
   onClick,
   hasInfoPanelOpen = false,
+  focusedBodyName = null,
+  focusedMoonParent = null,
+  planetName = "",
 }: MoonProps) {
   const groupRef = useRef<THREE.Group>(null);
   const orbitAngleRef = useRef(Math.random() * Math.PI * 2);
@@ -170,16 +176,19 @@ export function Moon({
       </Suspense>
 
       {/* Moon label - clickable to zoom in */}
-      {(showLabel || isParentFocused) && !hasInfoPanelOpen && (
+      {/* Show regular label if: (labels enabled AND no planet/moon focused AND no info panel) OR (parent focused AND moon not focused) */}
+      {/* When parent is focused, show labels even when info panel is open */}
+      {(((showLabel && !focusedBodyName && focusedMoonParent === null) && !hasInfoPanelOpen) || (isParentFocused && !isFocused)) && (
         <Html
           position={[0, data.radius + 0.3, 0]}
           center
+          style={{ zIndex: 1 }}
         >
           <div
             style={{
-              color: isFocused || isLabelHovered ? "#00ffff" : "#aaddff",
-              fontSize: isLabelHovered ? "13px" : (isFocused ? "12px" : "10px"),
-              fontWeight: isFocused || isLabelHovered ? "bold" : "normal",
+              color: isLabelHovered ? "#00ffff" : "#aaddff",
+              fontSize: isLabelHovered ? "13px" : "10px",
+              fontWeight: isLabelHovered ? "bold" : "normal",
               fontFamily: "system-ui, sans-serif",
               textShadow: isLabelHovered 
                 ? "0 0 12px rgba(0,255,255,0.5), 0 0 8px rgba(0,0,0,0.9)"
@@ -196,6 +205,29 @@ export function Moon({
             onClick={(e) => {
               (e as any).stopPropagation?.();
               onClick?.();
+            }}
+          >
+            {data.name}
+          </div>
+        </Html>
+      )}
+
+      {/* Focused moon label - larger when zoomed in, always visible */}
+      {isFocused && (
+        <Html
+          position={[0, data.radius + 0.5, 0]}
+          center
+          style={{ zIndex: 1 }}
+        >
+          <div
+            style={{
+              color: "white",
+              fontSize: "14px",
+              fontWeight: "bold",
+              fontFamily: "system-ui, sans-serif",
+              textShadow: "0 0 15px rgba(0,0,0,0.9)",
+              pointerEvents: "none",
+              whiteSpace: "nowrap",
             }}
           >
             {data.name}
