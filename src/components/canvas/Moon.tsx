@@ -25,7 +25,6 @@ interface MoonProps {
   hasInfoPanelOpen?: boolean;
   focusedBodyName?: string | null;
   focusedMoonParent?: string | null;
-  planetName?: string;
 }
 
 // Textured moon mesh component
@@ -92,7 +91,6 @@ export function Moon({
   hasInfoPanelOpen = false,
   focusedBodyName = null,
   focusedMoonParent = null,
-  planetName = "",
 }: MoonProps) {
   const groupRef = useRef<THREE.Group>(null);
   const orbitAngleRef = useRef(Math.random() * Math.PI * 2);

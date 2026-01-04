@@ -359,7 +359,6 @@ export function Planet({
             hasInfoPanelOpen={hasInfoPanelOpen}
             focusedBodyName={focusedBodyName}
             focusedMoonParent={focusedMoonParent}
-            planetName={data.name}
           />
         ))}
 
