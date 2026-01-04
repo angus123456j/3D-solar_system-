@@ -64,7 +64,7 @@ npm run dev
 - **Show Moon Labels**: Toggle moon labels separately
 - **Show Orbits**: Toggle orbit path visualization
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **React 19.2.0** - UI framework
 - **TypeScript** - Type safety
@@ -74,7 +74,7 @@ npm run dev
 - **@react-three/drei** - Helpers and utilities for R3F
 - **@react-three/postprocessing** - Visual effects (Bloom)
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 3D_Solar_System/
