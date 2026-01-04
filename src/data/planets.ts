@@ -165,7 +165,7 @@ export const PLANETS: PlanetData[] = [
     orbitSpeed: 0.084,
     rotationSpeed: 0.04,
     tilt: 3.1,
-    hasRings: true,
+    hasRings: false,
     ringInnerRadius: 4,
     ringOuterRadius: 5,
     moons: [

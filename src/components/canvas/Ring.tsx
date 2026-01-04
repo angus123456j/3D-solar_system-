@@ -111,6 +111,31 @@ export function Ring({ innerRadius, outerRadius, planetName }: RingProps) {
     return 0.3;
   }, [planetName]);
 
+  // Multi-layered rings for Uranus and Neptune
+  if (planetName === "Uranus" || planetName === "Neptune") {
+    const ringWidth = outerRadius - innerRadius;
+    const layers = [
+      { inner: innerRadius, outer: innerRadius + ringWidth * 0.3, opacity: 0.5 },
+      { inner: innerRadius + ringWidth * 0.25, outer: innerRadius + ringWidth * 0.55, opacity: 0.4 },
+      { inner: innerRadius + ringWidth * 0.5, outer: innerRadius + ringWidth * 0.75, opacity: 0.35 },
+      { inner: innerRadius + ringWidth * 0.7, outer: outerRadius, opacity: 0.3 },
+    ];
+
+    return (
+      <>
+        {layers.map((layer, index) => (
+          <FallbackRing
+            key={index}
+            innerRadius={layer.inner}
+            outerRadius={layer.outer}
+            color={ringColor}
+            opacity={layer.opacity}
+          />
+        ))}
+      </>
+    );
+  }
+
   // Use textured ring for Saturn, fallback for others
   if (texturePath) {
     return (

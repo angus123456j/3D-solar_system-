@@ -29,13 +29,21 @@ interface MoonProps {
 function TexturedMoonMesh({
   radius,
   texturePath,
+  moonName,
   onClick,
 }: {
   radius: number;
   texturePath: string;
+  moonName: string;
   onClick: (e: THREE.Event) => void;
 }) {
   const texture = useLoader(TextureLoader, texturePath);
+
+  // Uranus moons need texture flipped so black is at bottom and craters at top
+  const uranusMoons = ["Miranda", "Ariel", "Titania", "Umbriel", "Oberon"];
+  if (uranusMoons.includes(moonName)) {
+    texture.flipY = false;
+  }
 
   return (
     <mesh onClick={onClick}>
@@ -149,6 +157,7 @@ export function Moon({
           <TexturedMoonMesh
             radius={data.radius}
             texturePath={texturePath}
+            moonName={data.name}
             onClick={handleClick}
           />
         ) : (

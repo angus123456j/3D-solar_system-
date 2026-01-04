@@ -7,7 +7,7 @@ import type { PlanetData, DwarfPlanetData } from "../../data/planets";
 import { Moon } from "./Moon";
 import { Ring } from "./Ring";
 import { updateTargetPosition } from "../../stores/cameraStore";
-import { getPlanetTexture } from "../../utils/textures";
+import { getPlanetTexture, getCloudTexture } from "../../utils/textures";
 
 // Moon data interface for info panel
 interface MoonInfo {
@@ -94,6 +94,48 @@ function FallbackPlanetMesh({
   );
 }
 
+// Cloud layer component for planets with clouds (like Earth)
+function CloudLayer({
+  radius,
+  cloudTexturePath,
+  tilt,
+  rotationSpeed,
+  timeScale,
+}: {
+  radius: number;
+  cloudTexturePath: string;
+  tilt: number;
+  rotationSpeed: number;
+  timeScale: number;
+}) {
+  const cloudRef = useRef<THREE.Mesh>(null);
+  const cloudTexture = useLoader(TextureLoader, cloudTexturePath);
+
+  useFrame((_, delta) => {
+    if (cloudRef.current) {
+      // Clouds rotate slightly faster than the planet for realistic effect
+      cloudRef.current.rotation.y += delta * rotationSpeed * 5.2 * timeScale;
+    }
+  });
+
+  return (
+    <mesh
+      ref={cloudRef}
+      rotation={[0, 0, THREE.MathUtils.degToRad(tilt)]}
+    >
+      <sphereGeometry args={[radius * 1.01, 64, 64]} />
+      <meshStandardMaterial
+        map={cloudTexture}
+        transparent
+        opacity={0.6}
+        roughness={0.9}
+        metalness={0.0}
+        alphaTest={0.01}
+      />
+    </mesh>
+  );
+}
+
 export function Planet({
   data,
   timeScale = 1,
@@ -114,6 +156,9 @@ export function Planet({
 
   // Get texture path for this planet
   const texturePath = useMemo(() => getPlanetTexture(data.name), [data.name]);
+  
+  // Get cloud texture path (for Earth)
+  const cloudTexturePath = useMemo(() => getCloudTexture(data.name), [data.name]);
 
   // Reset hover state when focus changes (fixes sticky hover after zoom out)
   useEffect(() => {
@@ -212,21 +257,49 @@ export function Planet({
           )}
         </Suspense>
 
+        {/* Cloud layer for Earth */}
+        {cloudTexturePath && (
+          <Suspense fallback={null}>
+            <CloudLayer
+              radius={data.radius}
+              cloudTexturePath={cloudTexturePath}
+              tilt={data.tilt}
+              rotationSpeed={data.rotationSpeed}
+              timeScale={timeScale}
+            />
+          </Suspense>
+        )}
 
-        {/* Fill light when focused - illuminates the dark side for better texture visibility */}
+        {/* Cinematic lighting when focused - soft, atmospheric illumination */}
         {isFocused && (
           <>
+            {/* Dim spotlight from directly above the planet only - intensity scales with planet size */}
             <pointLight
-              position={[data.radius * 4, data.radius * 3, data.radius * 4]}
+              position={[0, data.radius * 3.5, 0]}
+              intensity={data.radius * 10}
+              distance={data.radius * 15}
+              color="#ffffff"
+            />
+            {/* Main key light - angled from front/left for cinematic look */}
+            <pointLight
+              position={[data.radius * 5, data.radius * 4, data.radius * 6]}
+              intensity={5}
+              distance={data.radius * 30}
+              color="#ffffff"
+            />
+            {/* Fill light - softer, from opposite side */}
+            <pointLight
+              position={[-data.radius * 4, data.radius * 2, -data.radius * 5]}
               intensity={3}
               distance={data.radius * 25}
-              color="#aaccff"
+              color="#b8d4ff"
             />
+            {/* Rim light - backlight for depth and separation */}
             <pointLight
-              position={[-data.radius * 3, data.radius * 2, -data.radius * 3]}
-              intensity={2}
-              distance={data.radius * 20}
-              color="#ffeecc"
+              position={[-data.radius * 3, data.radius * 3, -data.radius * 8]}
+              intensity={3.5}
+              distance={data.radius * 28}
+              color="#d4e8ff"
             />
           </>
         )}

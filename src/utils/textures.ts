@@ -2,6 +2,7 @@
 import mercuryTexture from "../assets/textures/planets/2k_mercury.jpg";
 import venusTexture from "../assets/textures/planets/2k_venus.jpg";
 import earthTexture from "../assets/textures/planets/2k_earth.jpg";
+import earthCloudsTexture from "../assets/textures/planets/2k_earth_clouds.jpg";
 import marsTexture from "../assets/textures/planets/2k_mars.jpg";
 import jupiterTexture from "../assets/textures/planets/2k_jupiter.jpg";
 import saturnTexture from "../assets/textures/planets/2k_saturn.jpg";
@@ -93,5 +94,14 @@ export function getMoonTexture(name: string): string | undefined {
 
 export function getRingTexture(name: string): string | undefined {
   return RING_TEXTURES[name];
+}
+
+// Cloud texture mapping
+export const CLOUD_TEXTURES: Record<string, string> = {
+  Earth: earthCloudsTexture,
+};
+
+export function getCloudTexture(name: string): string | undefined {
+  return CLOUD_TEXTURES[name];
 }
 
