@@ -145,7 +145,53 @@
     width: calc(100% - 40px);
     left: 20px;
     right: 20px;
-    bottom: 100px;
+    bottom: 180px;
+    max-height: calc(100vh - 220px);
+    overflow-y: auto;
+    padding: 20px;
+    border-radius: 20px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .moon-info-close {
+    width: 36px;
+    height: 36px;
+    top: 12px;
+    right: 12px;
+    font-size: 22px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .moon-info-title {
+    font-size: 22px;
+  }
+
+  .moon-parent {
+    font-size: 11px;
+  }
+
+  .moon-info-nickname {
+    font-size: 13px;
+  }
+
+  .moon-info-item {
+    padding: 12px 14px;
+    min-height: 48px;
+  }
+
+  .moon-info-label {
+    font-size: 13px;
+  }
+
+  .moon-info-value {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .moon-info-funfact .funfact-text {
+    font-size: 13px;
+    line-height: 1.6;
   }
 }
 

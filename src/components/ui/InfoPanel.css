@@ -150,9 +150,49 @@
     left: 20px;
     right: 20px;
     top: auto;
-    bottom: 20px;
-    max-height: 50vh;
+    bottom: 180px;
+    max-height: calc(100vh - 220px);
     overflow-y: auto;
+    padding: 20px;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 20px;
+  }
+
+  .info-panel-close {
+    width: 36px;
+    height: 36px;
+    top: 12px;
+    right: 12px;
+    font-size: 22px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .info-panel-title {
+    font-size: 24px;
+  }
+
+  .info-panel-nickname {
+    font-size: 13px;
+  }
+
+  .info-item {
+    padding: 14px 16px;
+    min-height: 50px;
+  }
+
+  .info-label {
+    font-size: 14px;
+  }
+
+  .info-value {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .funfact-text {
+    font-size: 14px;
+    line-height: 1.6;
   }
 }
 
