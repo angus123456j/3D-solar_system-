@@ -1,6 +1,6 @@
 import { useState, useCallback, Suspense, useRef, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
-import { PerspectiveCamera, OrbitControls } from "@react-three/drei";
+import { PerspectiveCamera, OrbitControls, Html, useProgress } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import * as THREE from "three";
 import { SolarSystem } from "./components/canvas/SolarSystem";
@@ -20,6 +20,30 @@ interface MoonInfo {
   orbitRadius: number;
   orbitSpeed: number;
   color?: string;
+}
+
+// Loading screen component that uses drei's useProgress hook
+function Loader() {
+  const { progress, active } = useProgress();
+  
+  if (!active || progress === 100) {
+    return null;
+  }
+  
+  return (
+    <Html center style={{ pointerEvents: 'none' }}>
+      <div className="loading-screen">
+        <div className="loading-content">
+          <div className="loading-spinner"></div>
+          <h2>Loading Solar System</h2>
+          <div className="loading-bar-container">
+            <div className="loading-bar" style={{ width: `${progress}%` }}></div>
+          </div>
+          <p>{Math.round(progress)}% loaded</p>
+        </div>
+      </div>
+    </Html>
+  );
 }
 
 function Scene({
@@ -173,6 +197,7 @@ function App() {
             hasInfoPanelOpen={selectedBody !== null || selectedMoon !== null}
           />
         </Suspense>
+        <Loader />
       </Canvas>
 
       {/* UI Overlay */}

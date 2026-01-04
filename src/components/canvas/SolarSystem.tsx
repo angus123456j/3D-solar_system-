@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import * as THREE from "three";
 import { Sun } from "./Sun";
 import { Planet } from "./Planet";
@@ -42,16 +42,9 @@ export function SolarSystem({
   const [focusedMoon, setFocusedMoon] = useState<string | null>(null);
   const [focusedMoonParent, setFocusedMoonParent] = useState<string | null>(null);
 
-  // Reset focus state when parent clears selection via zoom out button
-  // When hasInfoPanelOpen becomes false but we still have a focused body, reset it
-  useEffect(() => {
-    if (!hasInfoPanelOpen && (focusedBody !== null || focusedMoon !== null)) {
-      setFocusedBody(null);
-      setFocusedMoon(null);
-      setFocusedMoonParent(null);
-      clearTracking();
-    }
-  }, [hasInfoPanelOpen]);
+  // Don't auto-reset focus when info panel closes
+  // Only reset when explicitly clicking zoom out or clicking planet again
+  // This allows closing info panel without zooming out
 
   const handlePlanetClick = useCallback(
     (body: PlanetData | DwarfPlanetData, position: THREE.Vector3) => {
