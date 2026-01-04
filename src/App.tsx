@@ -54,6 +54,7 @@ function Scene({
   onSelectBody,
   onSelectMoon,
   hasInfoPanelOpen,
+  selectedBody,
 }: {
   timeScale: number;
   showLabels: boolean;
@@ -62,6 +63,7 @@ function Scene({
   onSelectBody: (body: BodyData | null) => void;
   onSelectMoon: (moon: MoonInfo, parentName: string) => void;
   hasInfoPanelOpen: boolean;
+  selectedBody: BodyData | null;
 }) {
   return (
     <>
@@ -86,6 +88,7 @@ function Scene({
         onSelectBody={onSelectBody}
         onSelectMoon={onSelectMoon}
         hasInfoPanelOpen={hasInfoPanelOpen}
+        selectedBody={selectedBody}
       />
 
       {/* Post-processing effects */}
@@ -195,6 +198,7 @@ function App() {
             onSelectBody={handleBodySelect}
             onSelectMoon={handleMoonSelect}
             hasInfoPanelOpen={selectedBody !== null || selectedMoon !== null}
+            selectedBody={selectedBody}
           />
         </Suspense>
         <Loader />

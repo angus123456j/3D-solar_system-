@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import * as THREE from "three";
 import { Sun } from "./Sun";
 import { Planet } from "./Planet";
@@ -27,6 +27,7 @@ interface SolarSystemProps {
   onSelectBody?: (body: PlanetData | DwarfPlanetData | typeof SUN_DATA | null) => void;
   onSelectMoon?: (moon: MoonInfo, parentName: string) => void;
   hasInfoPanelOpen?: boolean;
+  selectedBody?: PlanetData | DwarfPlanetData | typeof SUN_DATA | null;
 }
 
 export function SolarSystem({
@@ -37,14 +38,37 @@ export function SolarSystem({
   onSelectBody,
   onSelectMoon,
   hasInfoPanelOpen = false,
+  selectedBody = null,
 }: SolarSystemProps) {
   const [focusedBody, setFocusedBody] = useState<string | null>(null);
   const [focusedMoon, setFocusedMoon] = useState<string | null>(null);
   const [focusedMoonParent, setFocusedMoonParent] = useState<string | null>(null);
+  const prevSelectedBodyRef = useRef<PlanetData | DwarfPlanetData | typeof SUN_DATA | null>(null);
 
-  // Don't auto-reset focus when info panel closes
-  // Only reset when explicitly clicking zoom out or clicking planet again
-  // This allows closing info panel without zooming out
+  // Clear focus state when parent explicitly clears selection via zoom out button
+  // Track when selectedBody transitions from a value to null (zoom out)
+  // This ensures all labels show when zooming out
+  useEffect(() => {
+    // If selectedBody changed from non-null to null, it means zoom out was clicked
+    // (panel close also sets it to null, but we'll handle that differently)
+    const wasSelected = prevSelectedBodyRef.current !== null;
+    const isNowNull = selectedBody === null;
+    
+    // Only clear focus if:
+    // 1. selectedBody went from non-null to null (zoom out)
+    // 2. We still have a focused body (not already cleared by planet click)
+    // 3. Info panel is closed (zoom out scenario, not panel close)
+    if (wasSelected && isNowNull && !hasInfoPanelOpen && (focusedBody !== null || focusedMoon !== null)) {
+      // This is a zoom out - clear the focus state so all labels show
+      setFocusedBody(null);
+      setFocusedMoon(null);
+      setFocusedMoonParent(null);
+      clearTracking();
+    }
+    
+    // Update the ref for next comparison
+    prevSelectedBodyRef.current = selectedBody;
+  }, [selectedBody, hasInfoPanelOpen, focusedBody, focusedMoon]);
 
   const handlePlanetClick = useCallback(
     (body: PlanetData | DwarfPlanetData, position: THREE.Vector3) => {
