@@ -127,22 +127,30 @@ function App() {
   const [showOrbits, setShowOrbits] = useState(true);
   const [selectedBody, setSelectedBody] = useState<BodyData | null>(null);
   const [selectedMoon, setSelectedMoon] = useState<{ moon: MoonInfo; parentName: string } | null>(null);
+  const [isInfoPanelOpen, setIsInfoPanelOpen] = useState(false);
+  const [isMoonPanelOpen, setIsMoonPanelOpen] = useState(false);
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const handleBodySelect = useCallback((body: BodyData | null) => {
     setSelectedBody(body);
     setSelectedMoon(null); // Clear moon selection when selecting a planet
+    setIsInfoPanelOpen(body !== null); // Open panel when body is selected
+    setIsMoonPanelOpen(false); // Close moon panel
   }, []);
 
   const handleMoonSelect = useCallback((moon: MoonInfo, parentName: string) => {
     setSelectedMoon({ moon, parentName });
+    setIsMoonPanelOpen(true); // Open moon panel when moon is selected
+    setIsInfoPanelOpen(false); // Close planet panel
   }, []);
 
   const handleZoomOut = useCallback(() => {
     resetCamera();
     setSelectedBody(null);
     setSelectedMoon(null);
+    setIsInfoPanelOpen(false); // Close planet panel
+    setIsMoonPanelOpen(false); // Close moon panel
     // Clear the selection in SolarSystem by calling the handlers with null
     handleBodySelect(null);
   }, [handleBodySelect]);
@@ -197,7 +205,7 @@ function App() {
             showOrbits={showOrbits}
             onSelectBody={handleBodySelect}
             onSelectMoon={handleMoonSelect}
-            hasInfoPanelOpen={selectedBody !== null || selectedMoon !== null}
+            hasInfoPanelOpen={isInfoPanelOpen || isMoonPanelOpen}
             selectedBody={selectedBody}
           />
         </Suspense>
@@ -217,13 +225,13 @@ function App() {
       />
 
       {/* Planet Info Panel */}
-      <InfoPanel body={selectedBody} onClose={() => setSelectedBody(null)} />
+      <InfoPanel body={isInfoPanelOpen ? selectedBody : null} onClose={() => setIsInfoPanelOpen(false)} />
 
       {/* Moon Info Panel */}
       <MoonInfoPanel
-        moon={selectedMoon?.moon || null}
-        parentName={selectedMoon?.parentName || ""}
-        onClose={() => setSelectedMoon(null)}
+        moon={isMoonPanelOpen ? selectedMoon?.moon || null : null}
+        parentName={isMoonPanelOpen ? selectedMoon?.parentName || "" : ""}
+        onClose={() => setIsMoonPanelOpen(false)}
       />
 
       {/* Title */}
