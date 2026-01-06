@@ -143,6 +143,7 @@ body,
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
   z-index: 999999;
   transition: all 0.2s ease;
+  min-width: 150px;
 }
 
 .zoom-out-button:hover {
@@ -180,6 +181,7 @@ body,
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
   z-index: 999999;
   transition: all 0.2s ease;
+  min-width: 150px;
 }
 
 .music-toggle-button:hover {
