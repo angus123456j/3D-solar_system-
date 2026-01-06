@@ -39,7 +39,7 @@ export function Controls({
         className="controls-toggle"
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        {isExpanded ? "◀" : "▶"} Controls
+        {isExpanded ? "◀" : "▶"} {isExpanded ? "Minimise Controls" : "Maximise Controls"}
       </button>
 
       {isExpanded && (
@@ -87,7 +87,7 @@ export function Controls({
 
           {/* Instructions */}
           <div className="control-group instructions">
-            <label className="control-label">📖 Controls</label>
+            <label className="control-label">Controls</label>
             <ul className="instructions-list">
               <li>Left click + drag to rotate</li>
               <li>Right click + drag to pan</li>

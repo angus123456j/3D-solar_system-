@@ -2,19 +2,15 @@
   position: fixed;
   top: 20px;
   left: 20px;
-  background: linear-gradient(
-    135deg,
-    rgba(10, 10, 30, 0.95) 0%,
-    rgba(20, 20, 50, 0.9) 100%
-  );
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(100, 150, 255, 0.3);
-  border-radius: 16px;
+  background: rgba(10, 26, 46, 0.75);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(192, 192, 192, 0.3);
+  border-radius: 0;
   padding: 16px;
-  color: white;
+  color: #ffffff;
   font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, sans-serif;
   box-shadow: 
-    0 20px 60px rgba(0, 0, 0, 0.5),
+    0 8px 32px rgba(0, 0, 0, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   z-index: 10000;
   transition: all 0.3s ease;
@@ -29,19 +25,21 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  border-radius: 8px;
+  background: rgba(26, 42, 62, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(192, 192, 192, 0.25);
+  border-radius: 0;
   padding: 8px 12px;
-  color: white;
+  color: #ffffff;
   font-size: 13px;
   cursor: pointer;
   width: 100%;
-  transition: background 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .controls-toggle:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(42, 58, 78, 0.8);
+  border-color: rgba(192, 192, 192, 0.5);
 }
 
 .controls-content {
@@ -60,7 +58,7 @@
 .control-label {
   font-size: 12px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.7);
+  color: #c0c0c0;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -75,24 +73,27 @@
   flex: 1;
   min-width: 50px;
   padding: 8px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  color: rgba(255, 255, 255, 0.7);
+  background: rgba(26, 42, 62, 0.5);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(192, 192, 192, 0.2);
+  border-radius: 0;
+  color: #c0c0c0;
   font-size: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .time-button:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: white;
+  background: rgba(42, 58, 78, 0.7);
+  border-color: rgba(192, 192, 192, 0.4);
+  color: #ffffff;
 }
 
 .time-button.active {
-  background: linear-gradient(135deg, #4a90d9 0%, #63b3ed 100%);
-  border-color: transparent;
-  color: white;
+  background: rgba(192, 192, 192, 0.25);
+  backdrop-filter: blur(10px);
+  border-color: rgba(192, 192, 192, 0.6);
+  color: #ffffff;
   font-weight: 600;
 }
 
@@ -104,23 +105,27 @@
 .toggle-button {
   flex: 1;
   padding: 10px 12px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  color: rgba(255, 255, 255, 0.7);
+  background: rgba(26, 42, 62, 0.5);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(192, 192, 192, 0.2);
+  border-radius: 0;
+  color: #c0c0c0;
   font-size: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .toggle-button:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(42, 58, 78, 0.7);
+  border-color: rgba(192, 192, 192, 0.4);
+  color: #ffffff;
 }
 
 .toggle-button.active {
-  background: rgba(100, 200, 100, 0.2);
-  border-color: rgba(100, 200, 100, 0.4);
-  color: #88ff88;
+  background: rgba(192, 192, 192, 0.25);
+  backdrop-filter: blur(10px);
+  border-color: rgba(192, 192, 192, 0.6);
+  color: #ffffff;
 }
 
 .toggle-button.moon-toggle {
@@ -131,14 +136,11 @@
 .gesture-button {
   width: 100%;
   padding: 12px;
-  background: linear-gradient(
-    135deg,
-    rgba(150, 100, 255, 0.3) 0%,
-    rgba(100, 150, 255, 0.2) 100%
-  );
-  border: 1px solid rgba(150, 100, 255, 0.4);
-  border-radius: 10px;
-  color: white;
+  background: rgba(26, 42, 62, 0.5);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(192, 192, 192, 0.2);
+  border-radius: 0;
+  color: #ffffff;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -146,20 +148,15 @@
 }
 
 .gesture-button:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(150, 100, 255, 0.4) 0%,
-    rgba(100, 150, 255, 0.3) 100%
-  );
+  background: rgba(42, 58, 78, 0.7);
+  border-color: rgba(192, 192, 192, 0.4);
 }
 
 .gesture-button.active {
-  background: linear-gradient(
-    135deg,
-    rgba(100, 200, 100, 0.3) 0%,
-    rgba(100, 255, 150, 0.2) 100%
-  );
-  border-color: rgba(100, 200, 100, 0.5);
+  background: rgba(192, 192, 192, 0.25);
+  backdrop-filter: blur(10px);
+  border-color: rgba(192, 192, 192, 0.6);
+  color: #ffffff;
 }
 
 .gesture-status {
@@ -167,20 +164,22 @@
   align-items: center;
   gap: 8px;
   padding: 8px 12px;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 8px;
+  background: rgba(26, 42, 62, 0.4);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(42, 58, 78, 0.3);
+  border-radius: 0;
 }
 
 .status-dot {
   width: 8px;
   height: 8px;
-  border-radius: 50%;
-  background: rgba(255, 100, 100, 0.8);
+  border-radius: 0;
+  background: #c0c0c0;
   animation: pulse 2s infinite;
 }
 
 .status-dot.active {
-  background: rgba(100, 255, 100, 0.8);
+  background: #ffffff;
 }
 
 @keyframes pulse {
@@ -190,12 +189,12 @@
 
 .status-text {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.7);
+  color: #c0c0c0;
 }
 
 .instructions {
   padding-top: 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(192, 192, 192, 0.2);
 }
 
 .instructions-list {
@@ -209,7 +208,7 @@
 
 .instructions-list li {
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.6);
+  color: #c0c0c0;
 }
 
 /* Mobile responsiveness */
@@ -225,6 +224,7 @@
     overflow-y: auto;
     padding: 16px;
     -webkit-overflow-scrolling: touch;
+    border-radius: 0;
   }
 
   .controls.collapsed {

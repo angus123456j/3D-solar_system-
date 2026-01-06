@@ -1,0 +1,101 @@
+.PTQABWinModal {
+    border-color: #47423e;
+    border-style: solid;
+    border-right-width: 1px;
+    border-left-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    border-radius: 0.07em;    
+    background-color: var(--pt-page-background-color);
+    border-color: var(--pt-modal-border-color); 
+}
+
+.PTQABWinLocation {
+    top: 0em;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    font-size: 11pt; 
+    -webkit-transition: width 1s; -moz-transition: width 1s; -ms-transition: width 1s; transition: width 1s;
+}
+
+
+.PTQABWinModal {
+    position: fixed;
+    top: 0em;
+    bottom: 0em;
+    left: -30.3em;
+    -webkit-transition:-webkit-transform 1s; -moz-transition:-moz-transform 1s; -ms-transition:-ms-transform 1s; transition:transform 1s; 
+}
+
+
+.PTQABWinModal.slidein {
+    -webkit-transform:translateX(30.3em); -moz-transform:translateX(30.3em); -ms-transform:translateX(30.3em); transform:translateX(30.3em);
+}
+
+
+html[dir="rtl"] .PTQABWinModal.slidein {
+    -webkit-transform:translateX(-30.3em); -moz-transform:translateX(-30.3em); -ms-transform:translateX(-30.3em); transform:translateX(-30.3em);
+}
+
+.PTQABWinModal iframe {
+    width:320px;
+    height:100%;
+}
+
+
+.pt_qab-mrusection .ps_groupleth,
+.pt_qab-favsection .ps_groupleth {
+    display:none;
+}
+
+.pt_qab-popup :focus {
+    outline-offset: -1px;
+}
+
+.pt_qab-popup .ps_header-group {
+    flex: 0 0 auto;
+    color: #000;
+    padding: 1em;
+    margin-top: 0.5em;
+    border: 0;
+    margin: 0;
+    color: var(--pt-modal-header-text-color); 
+}
+
+.pt_qab-popup,
+.pt_qab-popup .ps_box-grouplet,
+.pt_qab-mrusection,
+.pt_qab-favsection,
+.pt_qab-scrollablecontent {
+    height:100%;
+}
+
+.pt_qab-scrollablecontent, .nui-fav-gb {
+    display: flex;
+    flex-direction: column;
+}
+
+.nui-fav-gb .pt_qab-scrollablecontent {
+    height: auto;
+    flex: 1 1 auto;
+}
+
+.pt_qab-scrollablecontent .ps_content-group {
+    flex: 1 1 auto;
+    position: relative;
+}
+
+.pt_qab-close {
+    display: inline-block;
+    position: absolute;
+    top: -2.95em;
+    right: 0.25em;
+}
+
+.pt_qab-popup  .nui-fav-gb  .psnbefav {
+    width: auto;
+    position: absolute;
+    top: -2.95em;
+    right: 3.5em; 
+}
